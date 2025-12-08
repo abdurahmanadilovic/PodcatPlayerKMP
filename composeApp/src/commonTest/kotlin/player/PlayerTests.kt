@@ -12,10 +12,18 @@ import kotlin.test.assertTrue
 class PlayerTests {
 
     @Test
-    fun playerCanPlay() {
+    fun playerSetsPlayingState() {
         val kmpPlayer = KMPPlayerImpl()
         kmpPlayer.play(listOf(Playable("123")))
 
         assertEquals(PlayState.Playing, kmpPlayer.getState())
+    }
+
+    @Test
+    fun playerKeepsCurrentPlayingEpisode() {
+        val kmpPlayer = KMPPlayerImpl()
+        kmpPlayer.play(listOf(Playable("123")))
+
+        assertEquals(1, kmpPlayer.getCurrentPlaylist().size)
     }
 }
