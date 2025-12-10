@@ -13,12 +13,14 @@ interface KMPPlayer {
     fun getCurrentlyPlaying(): Playable
 
     fun getCurrentPlaylist(): List<Playable>
+
+    fun playNext()
 }
 
 
 class KMPPlayerImpl : KMPPlayer {
     private val playlist = mutableListOf<Playable>()
-    private val currentIndex = 0
+    private var currentIndex = 0
     private var playState = PlayState.Stopped
     override fun play(playlist: List<Playable>) {
         this.playlist.clear()
@@ -36,5 +38,9 @@ class KMPPlayerImpl : KMPPlayer {
 
     override fun getCurrentPlaylist(): List<Playable> {
         return playlist
+    }
+
+    override fun playNext() {
+        currentIndex = if (currentIndex < playlist.size - 1) currentIndex + 1 else currentIndex
     }
 }
