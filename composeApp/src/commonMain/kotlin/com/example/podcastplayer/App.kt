@@ -3,17 +3,34 @@ package com.example.podcastplayer
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.key.Key.Companion.R
+import androidx.compose.ui.unit.dp
+import com.example.podcastplayer.player.Playable
+import org.jetbrains.compose.resources.painterResource // For multiplatform projects
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import podcastplayer.composeapp.generated.resources.Res
@@ -24,26 +41,48 @@ import podcastplayer.composeapp.generated.resources.compose_multiplatform
 fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+        Box(modifier = Modifier.safeContentPadding()) {
+            ListOfPlayable()
         }
+    }
+}
+
+@Composable
+@Preview
+fun ListOfPlayable() {
+    val list = listOf(
+        Playable("Name 1"),
+        Playable("Name 2"),
+        Playable("Name 3"),
+        Playable("Name 4"),
+    )
+    Column {
+        list.map {
+            PodcastCell(it)
+        }
+    }
+}
+
+@Composable
+@Preview
+fun PodcastCell(playable: Playable) {
+    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(playable.uri)
+        Spacer(Modifier.size(4.dp))
+        PlayButton()
+    }
+}
+
+@Composable
+fun PlayButton() {
+    Box(modifier = Modifier.height(30.dp).width(80.dp)) {
+        Button(
+            modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
+            contentPadding = PaddingValues(4.dp),
+            onClick = {
+
+            },
+            content = { Text("Play", style = MaterialTheme.typography.bodySmall) }
+        )
     }
 }
