@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
+import com.example.podcastplayer.player.PlayState
 import com.example.podcastplayer.player.Playable
 import org.jetbrains.compose.resources.painterResource // For multiplatform projects
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -51,10 +52,9 @@ fun App() {
 @Preview
 fun ListOfPlayable() {
     val list = listOf(
-        Playable("Name 1"),
-        Playable("Name 2"),
-        Playable("Name 3"),
-        Playable("Name 4"),
+        Playable("Name 1", title = "Tittle 1", "Subtitle 1"),
+        Playable("Name 2", title = "Tittle 2", "Subtitle 2"),
+        Playable("Name 3", title = "Tittle 3", "Subtitle 3"),
     )
     Column {
         list.map {
@@ -83,6 +83,29 @@ fun PlayButton() {
 
             },
             content = { Text("Play", style = MaterialTheme.typography.bodySmall) }
+        )
+    }
+}
+
+@Composable
+@Preview
+fun PlayerView(currentPlaying: Playable, playState: PlayState) {
+    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(currentPlaying.title)
+        PlayerControls(playState)
+    }
+}
+
+@Composable
+fun PlayerControls(playState: PlayState) {
+    Button(onClick = {}) {
+        Text(
+            when (playState) {
+                PlayState.Loading -> "..."
+                PlayState.Playing -> "Pause"
+                PlayState.Paused -> "Play"
+                PlayState.Stopped -> "Play"
+            }
         )
     }
 }
