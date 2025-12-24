@@ -1,6 +1,8 @@
 package com.example.podcastplayer.player
 
-data class Playable(val uri: String, val title: String, val subtitle: String)
+data class Playable(val uri: String, val title: String, val subtitle: String) {
+    companion object
+}
 
 enum class PlayState {
     Playing, Paused, Stopped, Loading
