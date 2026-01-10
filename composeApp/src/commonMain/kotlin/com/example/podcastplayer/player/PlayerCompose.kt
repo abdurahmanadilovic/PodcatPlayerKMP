@@ -32,7 +32,7 @@ fun ListOfPlayable() {
     )
     Column {
         list.map {
-            PodcastCell(it)
+            PodcastCell(it, playState = PlayState.Playing)
         }
     }
 }
@@ -40,20 +40,20 @@ fun ListOfPlayable() {
 @Preview
 @Composable
 fun PodcastCellPreview() {
-    PodcastCell(Playable("uri", "title", "subtitle"))
+    PodcastCell(Playable("uri", "title", "subtitle"), PlayState.Paused)
 }
 
 @Composable
-fun PodcastCell(playable: Playable) {
+fun PodcastCell(playable: Playable, playState: PlayState) {
     Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(playable.title)
         Spacer(Modifier.size(4.dp))
-        PlayButton()
+        PlayButton(playState)
     }
 }
 
 @Composable
-fun PlayButton() {
+fun PlayButton(playState: PlayState) {
     Box(modifier = Modifier.height(30.dp).width(80.dp)) {
         Button(
             modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
@@ -61,7 +61,7 @@ fun PlayButton() {
             onClick = {
 
             },
-            content = { Text("Play", style = MaterialTheme.typography.bodySmall) }
+            content = { PlayerControls(playState) }
         )
     }
 }
@@ -71,7 +71,7 @@ fun PlayerView(currentPlaying: Playable, playState: PlayState) {
     Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
         Text(currentPlaying.title, style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.width(8.dp))
-        PlayerControls(playState)
+        PlayButton(playState)
     }
 }
 
@@ -86,14 +86,12 @@ fun PlayerViewPreview() {
 
 @Composable
 fun PlayerControls(playState: PlayState) {
-    Button(onClick = {}) {
-        Text(
-            when (playState) {
-                PlayState.Loading -> "..."
-                PlayState.Playing -> "Pause"
-                PlayState.Paused -> "Play"
-                PlayState.Stopped -> "Play"
-            }
-        )
-    }
+    Text(
+        when (playState) {
+            PlayState.Loading -> "..."
+            PlayState.Playing -> "Pause"
+            PlayState.Paused -> "Play"
+            PlayState.Stopped -> "Play"
+        }
+    )
 }
