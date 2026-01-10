@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
+import com.example.podcastplayer.player.ListOfPlayable
 import com.example.podcastplayer.player.PlayState
 import com.example.podcastplayer.player.Playable
 import org.jetbrains.compose.resources.painterResource // For multiplatform projects
@@ -45,67 +46,5 @@ fun App() {
         Box(modifier = Modifier.safeContentPadding()) {
             ListOfPlayable()
         }
-    }
-}
-
-@Composable
-@Preview
-fun ListOfPlayable() {
-    val list = listOf(
-        Playable("Name 1", title = "Tittle 1", "Subtitle 1"),
-        Playable("Name 2", title = "Tittle 2", "Subtitle 2"),
-        Playable("Name 3", title = "Tittle 3", "Subtitle 3"),
-    )
-    Column {
-        list.map {
-            PodcastCell(it)
-        }
-    }
-}
-
-@Composable
-@Preview
-fun PodcastCell(playable: Playable) {
-    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Text(playable.uri)
-        Spacer(Modifier.size(4.dp))
-        PlayButton()
-    }
-}
-
-@Composable
-fun PlayButton() {
-    Box(modifier = Modifier.height(30.dp).width(80.dp)) {
-        Button(
-            modifier = Modifier.defaultMinSize(minWidth = 1.dp, minHeight = 1.dp),
-            contentPadding = PaddingValues(4.dp),
-            onClick = {
-
-            },
-            content = { Text("Play", style = MaterialTheme.typography.bodySmall) }
-        )
-    }
-}
-
-@Composable
-@Preview
-fun PlayerView(currentPlaying: Playable, playState: PlayState) {
-    Row(horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(currentPlaying.title)
-        PlayerControls(playState)
-    }
-}
-
-@Composable
-fun PlayerControls(playState: PlayState) {
-    Button(onClick = {}) {
-        Text(
-            when (playState) {
-                PlayState.Loading -> "..."
-                PlayState.Playing -> "Pause"
-                PlayState.Paused -> "Play"
-                PlayState.Stopped -> "Play"
-            }
-        )
     }
 }
