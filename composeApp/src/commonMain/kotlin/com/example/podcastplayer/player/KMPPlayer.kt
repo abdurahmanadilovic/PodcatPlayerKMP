@@ -20,7 +20,7 @@ interface KMPPlayer {
 }
 
 
-class KMPPlayerImpl : KMPPlayer {
+class KMPPlayerImpl : KMPPlayer, NativePlayerEventsObserver {
     private val playlist = mutableListOf<Playable>()
     private var currentIndex = 0
     private var playState = PlayState.Stopped
@@ -44,5 +44,9 @@ class KMPPlayerImpl : KMPPlayer {
 
     override fun playNext() {
         currentIndex = if (currentIndex < playlist.size - 1) currentIndex + 1 else currentIndex
+    }
+
+    override fun onPlayerStateChange(newPlayState: PlayState) {
+        playState = newPlayState
     }
 }
